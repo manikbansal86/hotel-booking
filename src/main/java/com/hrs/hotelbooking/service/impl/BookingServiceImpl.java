@@ -45,11 +45,7 @@ public class BookingServiceImpl implements BookingService {
         hotelRepository.save(hotel);
         Booking saved = bookingRepository.save(booking);
 
-        AnalyticsLogger.log(Constants.BOOKING_CREATED, String.format(
-                "userId=%d hotelId=%d checkIn=%s checkOut=%s",
-                saved.getUserId(), saved.getHotelId(),
-                saved.getCheckInDate(), saved.getCheckOutDate()
-        ));
+        AnalyticsLogger.log("Booking created successfully for id : "+ saved.getId());
 
         return saved;
     }
@@ -63,10 +59,7 @@ public class BookingServiceImpl implements BookingService {
         booking.setCheckOutDate(request.getCheckOutDate());
         Booking updated = bookingRepository.save(booking);
 
-        AnalyticsLogger.log(Constants.BOOKING_UPDATED, String.format(
-                "bookingId=%d newCheckIn=%s newCheckOut=%s",
-                updated.getId(), updated.getCheckInDate(), updated.getCheckOutDate()
-        ));
+        AnalyticsLogger.log("Booking updated successfully for id : "+ updated.getId());
 
         return updated;
     }
@@ -76,7 +69,7 @@ public class BookingServiceImpl implements BookingService {
         Booking booking = bookingRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Booking not found"));
 
-        AnalyticsLogger.log(Constants.BOOKING_FETCHED, "bookingId=" + booking.getId());
+        AnalyticsLogger.log("Booking fetched successfully for id : "+ booking.getId());
 
         return booking;
     }
@@ -98,6 +91,6 @@ public class BookingServiceImpl implements BookingService {
 
         booking.setStatus(BookingStatus.CANCELLED);
         bookingRepository.save(booking);
-        AnalyticsLogger.log(Constants.BOOKING_CANCELLED, "bookingId=" + id);
+        AnalyticsLogger.log("Booking cancelled successfully for id : "+ booking.getId());
     }
 }

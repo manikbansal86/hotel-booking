@@ -31,12 +31,13 @@ public class HotelController {
     @GetMapping
     public List<Hotel> searchHotels(@RequestParam(required = false) String location) {
         List<Hotel> results;
+        AnalyticsLogger.log("Request received for fetching hotels, location: "+location);
         if (location == null || location.isBlank()) {
             results = hotelRepository.findAll();
-            AnalyticsLogger.log(Constants.HOTEL_SEARCH, "filter=none results=" + results.size());
+            AnalyticsLogger.log(Constants.HOTEL_FETCHED, "Total number of Hotels fetched=" + results.size());
         } else {
             results = hotelRepository.findByLocationContainingIgnoreCase(location);
-            AnalyticsLogger.log(Constants.HOTEL_SEARCH, String.format("filter=location:%s results=%d", location, results.size()));
+            AnalyticsLogger.log(Constants.HOTEL_FETCHED_BY_LOCATION, String.format("Hotel fetched by location:%s , results=%d", location, results.size()));
         }
         return results;
     }

@@ -18,13 +18,13 @@ public class AnalyticsLogger {
      * @param details   Optional key-value info (e.g., "userId=1 hotelId=2")
      */
     public static void log(String eventName, String details) {
-        logger.info("analytics_event={} {}", eventName, details);
+        logger.info("analytics_event={} , {}", eventName, details);
     }
 
     /**
-     * Overload to allow logging with just event name.
+     * Overload to allow logging with message.
      */
-    public static void log(String eventName) {
-        logger.info("analytics_event={}", eventName);
+    public static void log(String message) {
+        logger.info(message);
     }
 }

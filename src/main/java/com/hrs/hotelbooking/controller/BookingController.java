@@ -34,11 +34,8 @@ public class BookingController {
     @ApiResponse(responseCode = "201", description = "Booking created successfully")
     @PostMapping
     public ResponseEntity<BookingResponse> createBooking(@RequestBody @Valid BookingRequest request) {
+        AnalyticsLogger.log(Constants.BOOKING_CREATED, "Request received for booking creation : "+request.toString());
         Booking booking = bookingService.createBooking(request);
-        AnalyticsLogger.log(Constants.BOOKING_CREATED,
-                String.format("userId=%d hotelId=%d checkIn=%s checkOut=%s",
-                        booking.getUserId(), booking.getHotelId(),
-                        booking.getCheckInDate(), booking.getCheckOutDate()));
         return new ResponseEntity<>(toResponse(booking), HttpStatus.CREATED);
     }
 
@@ -47,11 +44,8 @@ public class BookingController {
     @PutMapping("/{id}")
     public ResponseEntity<BookingResponse> updateBooking(@PathVariable Long id,
                                                          @RequestBody @Valid BookingRequest request) {
+        AnalyticsLogger.log(Constants.BOOKING_UPDATED, "Request received for booking updation : "+request.toString());
         Booking updated = bookingService.updateBooking(id, request);
-        AnalyticsLogger.log(Constants.BOOKING_UPDATED,
-                String.format("bookingId=%d userId=%d newCheckIn=%s newCheckOut=%s",
-                        updated.getId(), updated.getUserId(),
-                        updated.getCheckInDate(), updated.getCheckOutDate()));
         return ResponseEntity.ok(toResponse(updated));
     }
 
@@ -59,9 +53,8 @@ public class BookingController {
     @ApiResponse(responseCode = "200", description = "Booking found")
     @GetMapping("/{id}")
     public ResponseEntity<BookingResponse> getBooking(@PathVariable Long id) {
+        AnalyticsLogger.log(Constants.BOOKING_FETCHED, "Fetch booking for id : "+id);
         Booking booking = bookingService.getBooking(id);
-        AnalyticsLogger.log(Constants.BOOKING_FETCHED,
-                String.format("bookingId=%d userId=%d", booking.getId(), booking.getUserId()));
         return ResponseEntity.ok(toResponse(booking));
     }
 
@@ -69,8 +62,8 @@ public class BookingController {
     @ApiResponse(responseCode = "204", description = "Booking cancelled successfully")
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> cancelBooking(@PathVariable Long id) {
+        AnalyticsLogger.log(Constants.BOOKING_CANCELLED, "Cancelling booking for bookingId=" + id);
         bookingService.cancelBooking(id);
-        AnalyticsLogger.log(Constants.BOOKING_CANCELLED, "bookingId=" + id);
         return ResponseEntity.noContent().build();
     }
 
