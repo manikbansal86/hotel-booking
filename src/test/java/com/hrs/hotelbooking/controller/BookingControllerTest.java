@@ -1,4 +1,4 @@
-package hrs.hotelbooking.controller;
+package com.hrs.hotelbooking.controller;
 
 
 import com.hrs.hotelbooking.HotelBookingApplication;

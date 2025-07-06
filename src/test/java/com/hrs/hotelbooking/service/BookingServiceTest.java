@@ -1,4 +1,4 @@
-package hrs.hotelbooking.service;
+package com.hrs.hotelbooking.service;
 
 import com.hrs.hotelbooking.dto.BookingRequest;
 import com.hrs.hotelbooking.model.Booking;
